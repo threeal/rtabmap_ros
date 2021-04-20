@@ -833,7 +833,7 @@ rtabmap::Signature nodeDataFromROS(const rtabmap_ros::msg::NodeData & msg)
 		wordsDescriptors = rtabmap::uncompressData(msg.descriptors);
 		if(wordsDescriptors.rows != (int)msg.word_ids.size())
 		{
-			wordsDescriptors = cv::Mat();	
+			wordsDescriptors = cv::Mat();
 		}
 	}
 
@@ -1549,7 +1549,11 @@ bool convertRGBDMsgs(
 			}
 		}
 
-		cameraModels.push_back(rtabmap_ros::cameraModelFromROS(cameraInfoMsgs[i], localTransform));
+		rtabmap::Transform newTransform(
+			localTransform.z(), localTransform.x(), localTransform.y(),
+			-1.5708, 0.0, -1.5708);
+
+		cameraModels.push_back(rtabmap_ros::cameraModelFromROS(cameraInfoMsgs[i], newTransform));
 	}
 	return true;
 }
